@@ -3,3 +3,4 @@ transformers
 numpy
 streamlit
 gdown
+audio-recorder-streamlit
