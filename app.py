@@ -3,6 +3,7 @@ import streamlit as st
 import torch
 from transformers import pipeline
 import datetime
+import gdown
 
 st.set_page_config(
     page_title="MASRI Maltese ASR",
@@ -21,14 +22,21 @@ loaded = False
 if torch.cuda.is_available():
     device = torch.device("cuda:0")
 else:
-    # Otherwise run on CPU by default
-    device = torch.device("cpu")
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        # Otherwise run on CPU by default
+        device = torch.device("cpu")
 PATH_TO_MODEL = './maltese_asr_model'  # can be local or online (huggingface) path
-
 
 # Initialization of model
 if 'asr_model' not in st.session_state:
+    if not os.path.isfile(os.path.join(PATH_TO_MODEL,'pytorch_model.bin')):
+        url = 'https://drive.google.com/file/d/1JvcgGmUVE29G4rTaadl-q_BZ1FI4GknP/view?usp=share_link'
+        output_path = os.path.join(PATH_TO_MODEL, 'pytorch_model.bin')
+        gdown.download(url, output_path, quiet=False, fuzzy=True)
     st.session_state['asr_model'] = pipeline("automatic-speech-recognition", model=PATH_TO_MODEL, device=device)
+    # st.session_state['asr_model'] = pipeline("automatic-speech-recognition", model="MLRS/wav2vec2-xls-r-2b-mt-50", device=device, use_auth_token="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")
 pipe = st.session_state['asr_model']
 
 
