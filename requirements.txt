@@ -1,4 +1,4 @@
-pytorch==1.13.1
+pytorch==1.13
 transformers
 numpy
 streamlit
