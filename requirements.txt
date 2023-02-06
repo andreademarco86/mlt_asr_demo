@@ -1,5 +1,5 @@
-pytorch==1.12.1
-transformers==4.26.0
-numpy==1.23.2
-streamlit==1.17.0
-gdown==4.6.0
+pytorch==1.13.1
+transformers
+numpy
+streamlit
+gdown
